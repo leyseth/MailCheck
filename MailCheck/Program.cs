@@ -12,15 +12,14 @@ namespace MailCheck
 
         static async Task MainAsync()
         {
+            string mainUrl = "http://cbkonw-dyn-aa.iconos.be/";
+            string apiKey = "3*gd>BW;9DJp,3wBCbNRil]jwPzwc.FBU1y<6mZ3";
+
             try
             {
                 AutomationAnywhereAPI aaapi = new AutomationAnywhereAPI();
-                //aaapi.getRequest("http://www.google.com");
-                aaapi.Authorize("http://cbkonw-dyn-aa.iconos.be/v1/authentication");
-                //aaapi.postRequest("http://ptsv2.com/t/s7oqt-1583748337/post");
-                Console.WriteLine(aaapi.authbody);
-                aaapi.cleanAuthKey(aaapi.authbody);
-
+                aaapi.Authorize(mainUrl, apiKey);
+                aaapi.getFileList(mainUrl);
             }
             catch (Exception ex)
             {

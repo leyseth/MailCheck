@@ -13,62 +13,70 @@ namespace MailCheck
     class AutomationAnywhereAPI
     {
         HttpClient client = new HttpClient();
-        private string responseb;
+        
+        private string responsebody;
+        private string authbody;
+        private string authkey;
+        private string fileList;
 
-        private string authb;
 
-        public string authbody
+        public string Authbody
         {
-            get { return authb; }
-            set { authb = value; }
+            get { return authbody; }
+            set { authbody = value; }
         }
 
-        public string responsebody {
-            get { return responseb; }
-            set { responseb = value; } 
+        public string Responsebody {
+            get { return responsebody; }
+            set { responsebody = value; } 
         }
 
-
-        public async void getRequest(string url)
+        public string Authkey
         {
-            using (HttpClient client = new HttpClient())
-            {
-                using (HttpResponseMessage response = await client.GetAsync(url))
-                {
-                    using (HttpContent content = response.Content)
-                    {
-                        responseb = await content.ReadAsStringAsync();
-                    }
-                }                
-            }
+            get { return authkey; }
+            set { authkey = value; }
         }
 
 
-        public async void postRequest(string url)
-        {
-            IEnumerable<KeyValuePair<string, string>> queries = new List<KeyValuePair<String, String>>()
-            {
-                new KeyValuePair<string, string>("test", "testest"),
-            };
-            HttpContent postcontent = new FormUrlEncodedContent(queries);
-            var response = client.PostAsync(url, postcontent).Result;
-            if (response.StatusCode == HttpStatusCode.InternalServerError)
-            {
-                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
-            }
-            Console.WriteLine(response.Content.ReadAsStringAsync().Result);
-        }
+        //public async void getRequest(string url)
+        //{
+        //    using (HttpClient client = new HttpClient())
+        //    {
+        //        using (HttpResponseMessage response = await client.GetAsync(url))
+        //        {
+        //            using (HttpContent content = response.Content)
+        //            {
+        //                responseb = await content.ReadAsStringAsync();
+        //            }
+        //        }                
+        //    }
+        //}
+        //
+        //
+        //public async void postRequest(string url)
+        //{
+        //    IEnumerable<KeyValuePair<string, string>> queries = new List<KeyValuePair<String, String>>()
+        //    {
+        //        new KeyValuePair<string, string>("test", "testest"),
+        //    };
+        //    HttpContent postcontent = new FormUrlEncodedContent(queries);
+        //    var response = client.PostAsync(url, postcontent).Result;
+        //    if (response.StatusCode == HttpStatusCode.InternalServerError)
+        //    {
+        //        Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+        //    }
+        //    Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+        //}
 
-        public void Authorize(string url)
+        public void Authorize(string url, string APIkey)
         {
-            String querystring = "{\"username': 'string', 'password': 'string', 'apiKey': 'string', 'mfaCode': 0}";
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url + "v1/authentication");
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
 
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                string json = "{\"username\":\"aa_leyseth\",\"password\": \"gismo2340\", \"apiKey\": \"eu,Tkrd&+)/&UWcMava5V=DVh?6(!08^/w7WAamf\", \"mfaCode\": 0}";
+                string json = "{\"username\":\"aa_api\",\"password\": \"WhyRUTheWayUR\", \"apiKey\": \"" + APIkey + "\", \"mfaCode\": 0}";
                 streamWriter.Write(json);
                 streamWriter.Flush();
                 streamWriter.Close();
@@ -78,10 +86,33 @@ namespace MailCheck
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
                 JObject json = JObject.Parse(streamReader.ReadToEnd());
-                string authKey = (string)json["token"];
-                Console.WriteLine(authKey);
+                authkey = (string)json["token"];
+                
+            }
+            
+        }
+
+        public void getFileList(string url)
+        {
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url + "v2/repository/file/list");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+            httpWebRequest.Headers.Add("X-Authorization",authkey);
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                string json = "{\"filter\": {\"operator\": \"substring\",\"field\": \"path\",\"value\": \"SDDYN\"}}";
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
             }
 
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                Console.WriteLine(streamReader.ReadToEnd());
+
+            }
         }
     }
 }
