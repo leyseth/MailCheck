@@ -20,6 +20,7 @@ namespace MailCheck
                 AutomationAnywhereAPI aaapi = new AutomationAnywhereAPI();
                 aaapi.Authorize(mainUrl, apiKey);
                 aaapi.getFileList(mainUrl);
+                aaapi.deployBot(mainUrl, 12, 5);
             }
             catch (Exception ex)
             {

@@ -114,5 +114,30 @@ namespace MailCheck
 
             }
         }
+
+        public void deployBot(string url, int ID, int device)
+        {
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url + "v2/automations/deploy");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+            httpWebRequest.Headers.Add("X-Authorization",authkey);
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                string json = "{\"fileId\" :\"" + ID + "\", \"deviceIds\":[\"" + device + "\"]}";
+                Console.WriteLine(url + "/v2/automations/deploy");
+                Console.WriteLine(json);
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                Console.WriteLine(streamReader.ReadToEnd());
+
+            }
+        }
     }
 }
