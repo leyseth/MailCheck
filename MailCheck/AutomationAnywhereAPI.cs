@@ -59,16 +59,7 @@ namespace MailCheck
         public async void Authorize(string url)
         {
             
-            IEnumerable<KeyValuePair<string, string>> queries = new List<KeyValuePair<String, String>>()
-            {
-                new KeyValuePair<string, string>("username", "aa_leyseth"),
-                new KeyValuePair<string, string>("password", "gismo2340"),
-                new KeyValuePair<string, string>("apiKey", "#2K[(Ya['YFm`CfzH6 |&4+d$w={*2Q27GvqjLd2"),
-                new KeyValuePair<string, string>("mfaCode", "0"),
-            };
-            HttpContent postcontent = new FormUrlEncodedContent(queries);
-            var response = client.PostAsync(url, postcontent).Result;
-            authb = response.Content.ReadAsStringAsync().Result;
+            
         }
     }
 }
