@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace MailCheck
 {
@@ -76,9 +77,11 @@ namespace MailCheck
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
-                authb = streamReader.ReadToEnd();
+                JObject json = JObject.Parse(streamReader.ReadToEnd());
+                string authKey = (string)json["token"];
+                Console.WriteLine(authKey);
             }
-            
+
         }
     }
 }

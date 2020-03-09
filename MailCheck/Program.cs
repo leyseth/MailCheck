@@ -19,6 +19,8 @@ namespace MailCheck
                 aaapi.Authorize("http://cbkonw-dyn-aa.iconos.be/v1/authentication");
                 //aaapi.postRequest("http://ptsv2.com/t/s7oqt-1583748337/post");
                 Console.WriteLine(aaapi.authbody);
+                aaapi.cleanAuthKey(aaapi.authbody);
+
             }
             catch (Exception ex)
             {
