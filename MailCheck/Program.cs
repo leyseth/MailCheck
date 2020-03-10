@@ -10,7 +10,7 @@ namespace MailCheck
         static void Main(string[] args)
         {
             
-            Init();
+            //Init();
             //LaunchBot();
 
             Exchange e = new Exchange();

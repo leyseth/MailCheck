@@ -9,8 +9,14 @@ namespace MailCheck
     class Startup
     {
         private string deployDirectory;
+        private string ewsUri;
+        private string exchangeUsername;
+        private string exchangePassword;
 
         public string DeployDirectory { get; set; }
+        public string EwsUri { get; set; }
+        public string ExchangeUsername { get; set; }
+        public string ExchangePassword { get; set; }
 
 
         public void CheckInitDirect()
@@ -51,17 +57,20 @@ namespace MailCheck
         {
             Console.WriteLine("===============================================\n                    Outlook                   \n===============================================\n\n");
 
+            Console.Write("EWS URI: ");
+            ewsUri = Console.ReadLine();
+
             Console.Write("Mailadress: ");
-            string email = Console.ReadLine();
+            exchangeUsername = Console.ReadLine();
 
             Console.Write("Password: ");
-            string password = null;
+            exchangePassword = null;
             while (true)
             {
                 var key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.Enter)
                     break;
-                password += key.KeyChar;
+                exchangePassword += key.KeyChar;
             }
         }
     }
