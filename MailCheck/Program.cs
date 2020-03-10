@@ -7,10 +7,18 @@ namespace MailCheck
     {
         static void Main(string[] args)
         {
-            MainAsync().Wait();
+            Init();
+            //LaunchBot();
         }
 
-        static async Task MainAsync()
+        static void Init()
+        {
+            Startup s = new Startup();
+            s.InitCL();
+
+        }
+
+        static void LaunchBot()
         {
             string mainUrl = "http://cbkonw-dyn-aa.iconos.be/";
             string apiKey = "3*gd>BW;9DJp,3wBCbNRil]jwPzwc.FBU1y<6mZ3";
