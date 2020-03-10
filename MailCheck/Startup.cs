@@ -18,14 +18,16 @@ namespace MailCheck
             if (!Directory.Exists(deployDirectory))
             {
                 Directory.CreateDirectory(deployDirectory);
-                new XDocument(new XElement("root",new XElement("link", ""))).Save("foo.xml");
+                new XDocument(new XElement("root",new XElement("link", ""))).Save(DeployDirectory + "conf.xml");
+
+                InitCL();
             }
         }
 
         public void InitCL()
         {
             bool validChoice = false;            
-            //Console.WriteLine(" _     _       _____ \n| |   (_)     |  _  |\n| |    _ _ __ | | | |\n| |   | | '_ \\| | | |\n| |___| | | | \\ \\/' /\n\\_____/_|_| |_|\\_/\\_\\\n");
+            Console.WriteLine(" _     _       _____ \n| |   (_)     |  _  |\n| |    _ _ __ | | | |\n| |   | | '_ \\| | | |\n| |___| | | | \\ \\/' /\n\\_____/_|_| |_|\\_/\\_\\\n");
             do
             {
                 Console.WriteLine("What would you like to link to? Type the number and enter to continue.\n 1. Outlook \n");
@@ -35,6 +37,7 @@ namespace MailCheck
                 {
                     case "1":
                         validChoice = true;
+                        InitExchange();
                         break;
 
                     default:
@@ -44,5 +47,22 @@ namespace MailCheck
             } while (!validChoice);
         }
 
+        public void InitExchange()
+        {
+            Console.WriteLine("===============================================\n                    Outlook                   \n===============================================\n\n");
+
+            Console.Write("Mailadress: ");
+            string email = Console.ReadLine();
+
+            Console.Write("Password: ");
+            string password = null;
+            while (true)
+            {
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter)
+                    break;
+                password += key.KeyChar;
+            }
+        }
     }
 }

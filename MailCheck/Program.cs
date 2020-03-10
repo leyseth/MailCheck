@@ -5,10 +5,12 @@ namespace MailCheck
 {
     class Program
     {
+
+        const string DEPLOY_DIRECTORY = "C:\\Program Files (x86)\\LinQ\\";
         static void Main(string[] args)
         {
-            Console.WriteLine(" _     _       _____ \n| |   (_)     |  _  |\n| |    _ _ __ | | | |\n| |   | | '_ \\| | | |\n| |___| | | | \\ \\/' /\n\\_____/_|_| |_|\\_/\\_\\\n");
-            //Init();
+            
+            Init();
             //LaunchBot();
 
             Exchange e = new Exchange();
@@ -18,6 +20,7 @@ namespace MailCheck
         static void Init()
         {
             Startup s = new Startup();
+            s.DeployDirectory = DEPLOY_DIRECTORY;
             s.InitCL();
 
         }

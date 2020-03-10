@@ -32,7 +32,6 @@ namespace MailCheck
                         {
                             Console.WriteLine(message.Subject.ToString());
                             Console.WriteLine(message.Sender.Address.ToString());
-                            Console.WriteLine(message.Body.ToString());
                             hit = true;
                             break;
                         }  
