@@ -25,7 +25,7 @@ namespace MailCheck
         public void InitCL()
         {
             bool validChoice = false;            
-            Console.WriteLine(" _     _       _____ \n| |   (_)     |  _  |\n| |    _ _ __ | | | |\n| |   | | '_ \\| | | |\n| |___| | | | \\ \\/' /\n\\_____/_|_| |_|\\_/\\_\\\n");
+            //Console.WriteLine(" _     _       _____ \n| |   (_)     |  _  |\n| |    _ _ __ | | | |\n| |   | | '_ \\| | | |\n| |___| | | | \\ \\/' /\n\\_____/_|_| |_|\\_/\\_\\\n");
             do
             {
                 Console.WriteLine("What would you like to link to? Type the number and enter to continue.\n 1. Outlook \n");

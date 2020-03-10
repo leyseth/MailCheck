@@ -7,8 +7,12 @@ namespace MailCheck
     {
         static void Main(string[] args)
         {
-            Init();
+            Console.WriteLine(" _     _       _____ \n| |   (_)     |  _  |\n| |    _ _ __ | | | |\n| |   | | '_ \\| | | |\n| |___| | | | \\ \\/' /\n\\_____/_|_| |_|\\_/\\_\\\n");
+            //Init();
             //LaunchBot();
+
+            Exchange e = new Exchange();
+            e.getEmails();
         }
 
         static void Init()
