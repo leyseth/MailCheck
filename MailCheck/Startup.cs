@@ -12,7 +12,7 @@ namespace MailCheck
         private string ewsUri;
         private string exchangeUsername;
         private string exchangePassword;
-        private List<string> exchangeTriggerMailAdresses;
+        private List<string> exchangeTriggerMailAdresses = new List<string>();
         private string exchangeSavePath;
 
         public string DeployDirectory { get; set; }
@@ -56,7 +56,7 @@ namespace MailCheck
                 }
             } while (!validChoice);
 
-            Console.WriteLine("All done! Please relaunch this application.");
+            Console.WriteLine("\n\n\n\n\n\n===============================================\nAll done! Please schedule this application.\n===============================================\n\n");
         }
 
         public void InitExchange()
@@ -83,8 +83,9 @@ namespace MailCheck
             bool validChoice = false;
             Console.WriteLine("\n\n***Actions***\n\n");
             Console.WriteLine("What would you like to happen? Type the number and enter to continue.\n 1. Trigger robot upon new email \n");
-            string choice = Console.ReadLine();
+            
             do {
+                string choice = Console.ReadLine();
                 switch (choice)
                 {
                     case "1":
@@ -102,22 +103,37 @@ namespace MailCheck
         public void InitExchangeTrigger()
         {
             bool validChoice = false;
+            string input = "";
+            
+
             Console.WriteLine("\n\n***Mailtrigger***\n\n");
             Console.WriteLine("Would you like to specify mailadresses?\n 1. Yes \n 2. No\n");
-            string choice = Console.ReadLine();
+            
             do {
+                string choice = Console.ReadLine();
                 switch (choice)
                 {
+
                     case "1":
                         validChoice = true;
+                        
                         Console.WriteLine("\nSpecify the mail adresses below by typing the mail and pressing enter. Type done to continue.\n");
                         while(true)
                         {
-                            string input = Console.ReadLine().ToString();
-                            if (input.ToLower().Equals("done"))
+                            try
+                            {
+                                input = Console.ReadLine().ToString().ToLower();
+                            }
+                            catch(Exception E)
+                            {
+                                Console.WriteLine(E.ToString() + "\n\n");
+                                input = "";
+                            }
+                            
+                            if (input.Equals("done"))
                                 break;
-                            else if(!input.ToLower().Equals("") && input != null)
-                                exchangeTriggerMailAdresses.Add(input.ToLower());
+                            else if(!input.Equals("") && input != null)
+                                exchangeTriggerMailAdresses.Add(input);
                             else
                                 Console.WriteLine("Please provide proper input\n");
                         } 
@@ -140,8 +156,8 @@ namespace MailCheck
             Console.WriteLine("\n\n***Storage***\n\n");
             Console.WriteLine("Would you like to save the mails and attachments of these triggers?\n 1. Yes \n 2. No \n");
 
-            string choice = Console.ReadLine();
             do {
+                string choice = Console.ReadLine();
                 switch (choice)
                 {
                     case "1":
@@ -158,7 +174,6 @@ namespace MailCheck
                         break;
                 }
             } while (!validChoice);
-
         }
     }
 }
