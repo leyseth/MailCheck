@@ -10,11 +10,11 @@ namespace MailCheck
         static void Main(string[] args)
         {
             
-            //Init();
+            Init();
             //LaunchBot();
 
-            Exchange e = new Exchange();
-            e.getEmails();
+            //Exchange e = new Exchange();
+            //e.getEmails();
         }
 
         static void Init()

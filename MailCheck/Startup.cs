@@ -12,21 +12,23 @@ namespace MailCheck
         private string ewsUri;
         private string exchangeUsername;
         private string exchangePassword;
+        private List<string> exchangeTriggerMailAdresses;
 
         public string DeployDirectory { get; set; }
         public string EwsUri { get; set; }
         public string ExchangeUsername { get; set; }
         public string ExchangePassword { get; set; }
-
+        public List<string> ExchangeTriggerMailAdresses { get; set; }
 
         public void CheckInitDirect()
         {
-            if (!Directory.Exists(deployDirectory))
+            if (!File.Exists(deployDirectory + "conf.xml")) ;
             {
-                Directory.CreateDirectory(deployDirectory);
-                new XDocument(new XElement("root",new XElement("link", ""))).Save(DeployDirectory + "conf.xml");
-
+                
                 InitCL();
+
+                Directory.CreateDirectory(deployDirectory);
+                new XDocument(new XElement("root", new XElement("link", ""))).Save(deployDirectory + "conf.xml");
             }
         }
 
@@ -55,8 +57,9 @@ namespace MailCheck
 
         public void InitExchange()
         {
+            
             Console.WriteLine("===============================================\n                    Outlook                   \n===============================================\n\n");
-
+            Console.WriteLine("***Accountdetails***\n\n");
             Console.Write("EWS URI: ");
             ewsUri = Console.ReadLine();
 
@@ -72,6 +75,54 @@ namespace MailCheck
                     break;
                 exchangePassword += key.KeyChar;
             }
+
+            bool validChoice = false;
+            Console.WriteLine("\n\n***Actions***\n\n");
+            Console.WriteLine("What would you like to happen? Type the number and enter to continue.\n 1. Trigger robot upon new email \n");
+            string choice = Console.ReadLine();
+            do {
+                switch (choice)
+                {
+                    case "1":
+                        validChoice = true;
+                        InitExchangeTrigger();
+                        break;
+
+                    default:
+                        Console.WriteLine("Please select a valid choice.");
+                        break;
+                }
+            }while (!validChoice);
+        }
+        
+        public void InitExchangeTrigger()
+        {
+            bool validChoice = false;
+            Console.WriteLine("\n\n***Mailtrigger***\n\n");
+            Console.WriteLine("Would you like to specify mailadresses?\n 1. Yes \n 2. No\n");
+            string choice = Console.ReadLine();
+            do {
+                switch (choice)
+                {
+                    case "1":
+                        validChoice = true;
+                        Console.WriteLine("Specify the mail adresses below by typing the mail and pressing enter. Type done to continue.\n");
+                        while(true)
+                        {
+                            string input = Console.ReadLine().ToString();
+                            if (input.ToLower().Equals("done"))
+                                break;
+                        } 
+                        break;
+                    case "2":
+                        validChoice = true;
+
+                        break;
+                    default:
+                        Console.WriteLine("Please select a valid choice.");
+                        break;
+                }
+            } while (!validChoice);
         }
     }
 }
