@@ -13,12 +13,14 @@ namespace MailCheck
         private string exchangeUsername;
         private string exchangePassword;
         private List<string> exchangeTriggerMailAdresses;
+        private string exchangeSavePath;
 
         public string DeployDirectory { get; set; }
         public string EwsUri { get; set; }
         public string ExchangeUsername { get; set; }
         public string ExchangePassword { get; set; }
         public List<string> ExchangeTriggerMailAdresses { get; set; }
+        public string ExchangeSavePath { get; set; }
 
         public void CheckInitDirect()
         {
@@ -53,6 +55,8 @@ namespace MailCheck
                         break;
                 }
             } while (!validChoice);
+
+            Console.WriteLine("All done! Please relaunch this application.");
         }
 
         public void InitExchange()
@@ -106,12 +110,16 @@ namespace MailCheck
                 {
                     case "1":
                         validChoice = true;
-                        Console.WriteLine("Specify the mail adresses below by typing the mail and pressing enter. Type done to continue.\n");
+                        Console.WriteLine("\nSpecify the mail adresses below by typing the mail and pressing enter. Type done to continue.\n");
                         while(true)
                         {
                             string input = Console.ReadLine().ToString();
                             if (input.ToLower().Equals("done"))
                                 break;
+                            else if(!input.ToLower().Equals("") && input != null)
+                                exchangeTriggerMailAdresses.Add(input.ToLower());
+                            else
+                                Console.WriteLine("Please provide proper input\n");
                         } 
                         break;
                     case "2":
@@ -119,10 +127,38 @@ namespace MailCheck
 
                         break;
                     default:
-                        Console.WriteLine("Please select a valid choice.");
+                        Console.WriteLine("Please select a valid choice.\n");
                         break;
                 }
             } while (!validChoice);
+        }
+
+        public void InitExchangeDownloadDirect()
+        {
+            bool validChoice = false;
+
+            Console.WriteLine("\n\n***Storage***\n\n");
+            Console.WriteLine("Would you like to save the mails and attachments of these triggers?\n 1. Yes \n 2. No \n");
+
+            string choice = Console.ReadLine();
+            do {
+                switch (choice)
+                {
+                    case "1":
+                        validChoice = true;
+                        Console.WriteLine("\nSpecify the location. \n");
+                        exchangeSavePath = Console.ReadLine();
+                        break;
+                    case "2":
+                        validChoice = true;
+
+                        break;
+                    default:
+                        Console.WriteLine("\nPlease select a valid choice.");
+                        break;
+                }
+            } while (!validChoice);
+
         }
     }
 }
