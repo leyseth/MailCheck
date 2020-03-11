@@ -23,7 +23,7 @@ namespace MailCheck
 
             if (exchange != null)
             {
-                FindItemsResults<Item> result = exchange.FindItems(WellKnownFolderName.Inbox, new ItemView(100));
+                FindItemsResults<Item> result = exchange.FindItems(WellKnownFolderName.Inbox, new ItemView(1000));
                 
                 foreach(Item item in result)
                 {

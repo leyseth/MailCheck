@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
@@ -9,28 +10,55 @@ namespace MailCheck
     class Startup
     {
         private string deployDirectory;
+        private bool exchangeEnable = false;
+        private bool exchangeSpecificEmailTrigger = false;
         private string ewsUri;
         private string exchangeUsername;
         private string exchangePassword;
         private List<string> exchangeTriggerMailAdresses = new List<string>();
         private string exchangeSavePath;
 
-        public string DeployDirectory { get; set; }
+        public string DeployDirectory { get { return deployDirectory; } set { deployDirectory = value; } }
         public string EwsUri { get; set; }
         public string ExchangeUsername { get; set; }
         public string ExchangePassword { get; set; }
         public List<string> ExchangeTriggerMailAdresses { get; set; }
         public string ExchangeSavePath { get; set; }
+        public bool ExchangeEnable { get; set; }
+        public bool ExchangeSpecificEmailTrigger { get; set; }
+
+
 
         public void CheckInitDirect()
         {
-            if (!File.Exists(deployDirectory + "conf.xml")) ;
+            if (!File.Exists(deployDirectory + @"\conf.xml"))
             {
+                int i = 0;
                 
                 InitCL();
 
                 Directory.CreateDirectory(deployDirectory);
-                new XDocument(new XElement("root", new XElement("link", ""))).Save(deployDirectory + "conf.xml");
+                new XDocument(
+                    new XElement("root",
+                        new XElement("link",
+                            new XElement("exchangeEnable", exchangeEnable.ToString())
+                        ),
+                        new XElement("exchange",
+                            new XElement("exchangeUsername", exchangeUsername),
+                            new XElement("exchangePassword", exchangePassword),
+                            new XElement("ewsUri", ewsUri),
+                            new XElement("exchangeSpecificMailTrigger", exchangeSpecificEmailTrigger),
+                            new XElement("exchangeTriggerEmailAdresses",
+                                from email in exchangeTriggerMailAdresses
+                                select  new XElement("exchange", email)
+                            )
+                        )
+                    )
+                ).Save(deployDirectory + @"\conf.xml");
+            }
+            else
+            {
+                Console.WriteLine("Linq already configured, if you wish to change this configuration delete the conf.xml!\nExecuting...");
             }
         }
 
@@ -47,6 +75,7 @@ namespace MailCheck
                 {
                     case "1":
                         validChoice = true;
+                        exchangeEnable = true;
                         InitExchange();
                         break;
 
@@ -113,10 +142,9 @@ namespace MailCheck
                 string choice = Console.ReadLine();
                 switch (choice)
                 {
-
                     case "1":
                         validChoice = true;
-                        
+                        exchangeSpecificEmailTrigger = true;
                         Console.WriteLine("\nSpecify the mail adresses below by typing the mail and pressing enter. Type done to continue.\n");
                         while(true)
                         {
@@ -174,6 +202,8 @@ namespace MailCheck
                         break;
                 }
             } while (!validChoice);
+
+
         }
     }
 }
