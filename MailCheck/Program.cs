@@ -5,8 +5,6 @@ namespace MailCheck
 {
     class Program
     {
-
-        const string DEPLOY_DIRECTORY = @"C:\Users\leyseth\Documents\LinQ";
         static void Main(string[] args)
         {
             
@@ -20,9 +18,9 @@ namespace MailCheck
         static void Init()
         {
             Startup s = new Startup();
-            s.DeployDirectory = DEPLOY_DIRECTORY;
             s.CheckInitDirect();
         }
+
 
         static void LaunchBot()
         {

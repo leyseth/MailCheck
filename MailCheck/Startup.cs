@@ -9,16 +9,21 @@ namespace MailCheck
 {
     class Startup
     {
-        private string deployDirectory;
+        private static readonly string username = Environment.UserName;
+
+        private string deployDirectory = @"C:\Users\" + username + @"\Documents\LinQ";
+        
         private bool exchangeEnable = false;
         private bool exchangeSpecificEmailTrigger = false;
+        private bool exchangeSaveMail = false;
+
+        private List<string> exchangeTriggerMailAdresses = new List<string>();
+        private string exchangeSavePath;
         private string ewsUri;
         private string exchangeUsername;
         private string exchangePassword;
-        private List<string> exchangeTriggerMailAdresses = new List<string>();
-        private string exchangeSavePath;
 
-        public string DeployDirectory { get { return deployDirectory; } set { deployDirectory = value; } }
+
         public string EwsUri { get; set; }
         public string ExchangeUsername { get; set; }
         public string ExchangePassword { get; set; }
@@ -28,7 +33,8 @@ namespace MailCheck
         public bool ExchangeSpecificEmailTrigger { get; set; }
 
 
-
+        
+        
         public void CheckInitDirect()
         {
             if (!File.Exists(deployDirectory + @"\conf.xml"))
@@ -50,8 +56,10 @@ namespace MailCheck
                             new XElement("exchangeSpecificMailTrigger", exchangeSpecificEmailTrigger),
                             new XElement("exchangeTriggerEmailAdresses",
                                 from email in exchangeTriggerMailAdresses
-                                select  new XElement("exchange", email)
-                            )
+                                select new XElement("exchange", email)
+                            ),
+                            new XElement("exchangeSaveMail", exchangeSaveMail),
+                            new XElement("ExchangeSavePath", ExchangeSavePath)
                         )
                     )
                 ).Save(deployDirectory + @"\conf.xml");
@@ -190,12 +198,12 @@ namespace MailCheck
                 {
                     case "1":
                         validChoice = true;
+                        exchangeSaveMail = true;
                         Console.WriteLine("\nSpecify the location. \n");
                         exchangeSavePath = Console.ReadLine();
                         break;
                     case "2":
                         validChoice = true;
-
                         break;
                     default:
                         Console.WriteLine("\nPlease select a valid choice.");
