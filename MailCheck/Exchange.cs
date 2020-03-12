@@ -30,12 +30,13 @@ namespace MailCheck
                 
                 foreach(Item item in result)
                 {
-                    i++;
+                   
                     EmailMessage message = EmailMessage.Bind(exchange, item.Id);
                     try
                     {
                         if(exchangeMailList.Contains(message.Sender.Address.ToString()) && message.IsRead == false)
                         {
+                            i++;
                             Directory.CreateDirectory(savePath + "\\" + i);
 
                             File.WriteAllText(savePath + "\\" + i + @"\Subject.txt", message.Subject.ToString());
