@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace MailCheck
@@ -56,7 +57,7 @@ namespace MailCheck
                             new XElement("exchangeSpecificMailTrigger", exchangeSpecificEmailTrigger),
                             new XElement("exchangeTriggerEmailAdresses",
                                 from email in exchangeTriggerMailAdresses
-                                select new XElement("exchange", email)
+                                select new XElement("exchangeMailList", email)
                             ),
                             new XElement("exchangeSaveMail", exchangeSaveMail),
                             new XElement("ExchangeSavePath", ExchangeSavePath)
@@ -183,6 +184,9 @@ namespace MailCheck
                         break;
                 }
             } while (!validChoice);
+
+            InitExchangeDownloadDirect();
+
         }
 
         public void InitExchangeDownloadDirect()
@@ -212,6 +216,47 @@ namespace MailCheck
             } while (!validChoice);
 
 
+        }
+
+        public void ConfigReadout()
+        {
+             
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(deployDirectory + @"\conf.xml");
+
+            XmlNode nExchangeEnable = doc.DocumentElement.SelectSingleNode("/root/link/exchangeEnable");
+            exchangeEnable = bool.Parse(nExchangeEnable.InnerText);
+
+            if (exchangeEnable)
+            {
+                XmlNode nExchangeUsername = doc.DocumentElement.SelectSingleNode("/root/exchange/exchangeUsername");
+                exchangeUsername = nExchangeUsername.InnerText;
+
+                XmlNode nExchangePassword = doc.DocumentElement.SelectSingleNode("/root/exchange/exchangePassword");
+                exchangePassword = nExchangePassword.InnerText;
+
+                XmlNode nEwsUri = doc.DocumentElement.SelectSingleNode("/root/exchange/ewsUri");
+                ewsUri = nEwsUri.InnerText;
+
+                XmlNode nExchangeSpecificMailTrigger = doc.DocumentElement.SelectSingleNode("/root/exchange/exchangeSpecificMailTrigger");
+                exchangeSpecificEmailTrigger = bool.Parse(nExchangeSpecificMailTrigger.InnerText);
+
+                if (exchangeSpecificEmailTrigger)
+                {
+                    foreach (XmlNode node in doc.DocumentElement.SelectSingleNode("/root/exchange/exchangeTriggerEmailAdresses").ChildNodes)
+                    {
+                        string text = node.InnerText;
+                        exchangeTriggerMailAdresses.Add(text);
+                    }
+                }
+
+                if (exchangeSaveMail)   
+                {
+                    XmlNode nExchangeSavePath = doc.DocumentElement.SelectSingleNode("/root/exchange/ExchangeSavePath");
+                    exchangeSavePath = nExchangeSavePath.InnerText;
+                }
+            }
         }
     }
 }

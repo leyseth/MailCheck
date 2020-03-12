@@ -5,10 +5,14 @@ namespace MailCheck
 {
     class Program
     {
+
+        
+
         static void Main(string[] args)
         {
             
             Init();
+            Launch();
             //LaunchBot();
 
             //Exchange e = new Exchange();
@@ -19,6 +23,13 @@ namespace MailCheck
         {
             Startup s = new Startup();
             s.CheckInitDirect();
+        }
+
+
+        static void Launch()
+        {
+            Startup s = new Startup();
+            s.ConfigReadout();
         }
 
 
