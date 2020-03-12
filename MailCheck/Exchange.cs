@@ -8,16 +8,19 @@ namespace MailCheck
 {
     class Exchange
     {
-        Uri V = new Uri("https://outlook.office365.com/EWS/Exchange.asmx");
-
-        private List<Email> mails = new List<Email>();
+        
 
 
-        public void getEmails()
+
+
+        public void getEmailsAndSave(string uri, string username, string password, List<string> exchangeMailList, string savePath)
         {
+            //Uri V = new Uri("https://outlook.office365.com/EWS/Exchange.asmx");
+            
             ExchangeService exchange = new ExchangeService(ExchangeVersion.Exchange2007_SP1);
-            exchange.Credentials = new WebCredentials("supportdynatos@cronos.be", "-Dynat0s-");
+            Uri V = new Uri(uri);
             exchange.Url = V;
+            exchange.Credentials = new WebCredentials(username, password);
             bool hit = false;
             int i = 0;
 
@@ -31,14 +34,12 @@ namespace MailCheck
                     EmailMessage message = EmailMessage.Bind(exchange, item.Id);
                     try
                     {
-                        if(message.Sender.Address.ToString() == "support@aveve.be" && message.IsRead == false)
+                        if(exchangeMailList.Contains(message.Sender.Address.ToString()) && message.IsRead == false)
                         {
-                            Directory.CreateDirectory(@"C:\Users\leyseth\Desktop\INPUT\" + i);
-                            //FileOps.CreateTextFile(@"C:\Users\leyseth\Desktop\INPUT\" + i , "Body");
-                            //FileOps.CreateTextFile(@"C:\Users\leyseth\Desktop\INPUT\" + i, "Subject");
+                            Directory.CreateDirectory(savePath + "\\" + i);
 
-                            File.WriteAllText(@"C:\Users\leyseth\Desktop\INPUT\" + i + @"\Subject.txt", message.Subject.ToString());
-                            File.WriteAllText(@"C:\Users\leyseth\Desktop\INPUT\" + i + @"\Body.txt", message.Body.Text.ToString());
+                            File.WriteAllText(savePath + "\\" + i + @"\Subject.txt", message.Subject.ToString());
+                            File.WriteAllText(savePath + "\\" + i + @"\Body.txt", message.Body.Text.ToString());
 
 
                             foreach (Attachment attachment in message.Attachments)
@@ -48,7 +49,7 @@ namespace MailCheck
                                     FileAttachment fileAttachment = attachment as FileAttachment;
                                     // Load the attachment into a file.
                                     // This call results in a GetAttachment call to EWS.
-                                    fileAttachment.Load(@"C:\Users\leyseth\Desktop\INPUT\" + i + "\\" + fileAttachment.Name);
+                                    fileAttachment.Load(savePath + "\\" + i + "\\" + fileAttachment.Name);
 
                                     Console.WriteLine("File attachment name: " + fileAttachment.Name);
                                 }

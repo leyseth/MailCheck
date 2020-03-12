@@ -4,7 +4,6 @@ C:\Users\leyseth\source\repos\MailCheck\MailCheck\bin\Debug\netcoreapp3.0\MailCh
 C:\Users\leyseth\source\repos\MailCheck\MailCheck\bin\Debug\netcoreapp3.0\MailCheck.runtimeconfig.dev.json
 C:\Users\leyseth\source\repos\MailCheck\MailCheck\bin\Debug\netcoreapp3.0\MailCheck.dll
 C:\Users\leyseth\source\repos\MailCheck\MailCheck\bin\Debug\netcoreapp3.0\MailCheck.pdb
-C:\Users\leyseth\source\repos\MailCheck\MailCheck\obj\Debug\netcoreapp3.0\MailCheck.csprojAssemblyReference.cache
 C:\Users\leyseth\source\repos\MailCheck\MailCheck\obj\Debug\netcoreapp3.0\MailCheck.AssemblyInfoInputs.cache
 C:\Users\leyseth\source\repos\MailCheck\MailCheck\obj\Debug\netcoreapp3.0\MailCheck.AssemblyInfo.cs
 C:\Users\leyseth\source\repos\MailCheck\MailCheck\obj\Debug\netcoreapp3.0\MailCheck.dll

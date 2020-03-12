@@ -30,6 +30,13 @@ namespace MailCheck
         {
             Startup s = new Startup();
             s.ConfigReadout();
+
+            if (s.ExchangeEnable)
+            {
+                Exchange e = new Exchange();
+
+                e.getEmailsAndSave(s.EwsUri, s.ExchangeUsername, s.ExchangePassword, s.ExchangeTriggerMailAdresses, s.ExchangeSavePath);
+            }
         }
 
 

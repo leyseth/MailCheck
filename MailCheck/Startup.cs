@@ -25,17 +25,21 @@ namespace MailCheck
         private string exchangePassword;
 
 
-        public string EwsUri { get; set; }
-        public string ExchangeUsername { get; set; }
-        public string ExchangePassword { get; set; }
-        public List<string> ExchangeTriggerMailAdresses { get; set; }
-        public string ExchangeSavePath { get; set; }
-        public bool ExchangeEnable { get; set; }
-        public bool ExchangeSpecificEmailTrigger { get; set; }
+        public string DeployDirectory { get { return deployDirectory; } set { deployDirectory = value; } }
+        public string EwsUri { get { return ewsUri; } set { ewsUri = value; } }
+        public string ExchangeUsername { get {return exchangeUsername; } set {exchangeUsername = value; } }
+        public string ExchangePassword { get { return exchangePassword; } set {exchangePassword = value; } }
+        public List<string> ExchangeTriggerMailAdresses { get { return exchangeTriggerMailAdresses; } set {exchangeTriggerMailAdresses = value; } }
+        public string ExchangeSavePath { get {return exchangeSavePath; } set {exchangeSavePath = value; } }
+        public bool ExchangeEnable { get {return exchangeEnable; } set {exchangeEnable = value; } }
+        public bool ExchangeSpecificEmailTrigger { get {return exchangeSpecificEmailTrigger; } set {exchangeSpecificEmailTrigger = value; } }
+        public bool ExchangeSaveMail { get { return exchangeSaveMail; } set {exchangeSaveMail = value; } }
 
 
-        
-        
+
+
+
+
         public void CheckInitDirect()
         {
             if (!File.Exists(deployDirectory + @"\conf.xml"))
@@ -60,7 +64,7 @@ namespace MailCheck
                                 select new XElement("exchangeMailList", email)
                             ),
                             new XElement("exchangeSaveMail", exchangeSaveMail),
-                            new XElement("ExchangeSavePath", ExchangeSavePath)
+                            new XElement("ExchangeSavePath", exchangeSavePath)
                         )
                     )
                 ).Save(deployDirectory + @"\conf.xml");
@@ -250,6 +254,9 @@ namespace MailCheck
                         exchangeTriggerMailAdresses.Add(text);
                     }
                 }
+
+                XmlNode nExchangeSaveMail = doc.DocumentElement.SelectSingleNode("/root/exchange/exchangeSaveMail");
+                exchangeSaveMail = bool.Parse(nExchangeSaveMail.InnerText);
 
                 if (exchangeSaveMail)   
                 {
