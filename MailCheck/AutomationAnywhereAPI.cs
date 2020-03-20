@@ -18,6 +18,9 @@ namespace MailCheck
         private string authbody;
         private string authkey;
         private string fileList;
+        private string aaUsername;
+        private string aaPassword;
+
 
 
         public string Authbody
@@ -37,7 +40,17 @@ namespace MailCheck
             set { authkey = value; }
         }
 
+        public string AaUsername
+        {
+            get { return aaUsername; }
+            set { aaUsername = value; }
+        }
 
+        public string AaPassword
+        {
+            get { return aaPassword; }
+            set { aaPassword = value; }
+        }
         //public async void getRequest(string url)
         //{
         //    using (HttpClient client = new HttpClient())

@@ -10,13 +10,8 @@ namespace MailCheck
 
         static void Main(string[] args)
         {
-            
             Init();
             Launch();
-            //LaunchBot();
-
-            //Exchange e = new Exchange();
-            //e.getEmails();
         }
 
         static void Init()
@@ -34,13 +29,16 @@ namespace MailCheck
             if (s.ExchangeEnable)
             {
                 Exchange e = new Exchange();
-
                 e.getEmailsAndSave(s.EwsUri, s.ExchangeUsername, s.ExchangePassword, s.ExchangeTriggerMailAdresses, s.ExchangeSavePath);
+                if (e.MailHit)
+                {
+                    LaunchBot(5,12);
+                }
             }
         }
 
 
-        static void LaunchBot()
+        static void LaunchBot(int botId, int machineId)
         {
             string mainUrl = "http://cbkonw-dyn-aa.iconos.be/";
             string apiKey = "3*gd>BW;9DJp,3wBCbNRil]jwPzwc.FBU1y<6mZ3";
@@ -50,7 +48,7 @@ namespace MailCheck
                 AutomationAnywhereAPI aaapi = new AutomationAnywhereAPI();
                 aaapi.Authorize(mainUrl, apiKey);
                 aaapi.getFileList(mainUrl);
-                aaapi.deployBot(mainUrl, 12, 5);
+                aaapi.deployBot(mainUrl, machineId, botId);
             }
             catch (Exception ex)
             {

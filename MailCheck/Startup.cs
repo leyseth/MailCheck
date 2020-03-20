@@ -101,6 +101,11 @@ namespace MailCheck
             Console.WriteLine("\n\n\n\n\n\n===============================================\nAll done! Please schedule this application.\n===============================================\n\n");
         }
 
+        public void InitAaApi()
+        {
+
+        }
+
         public void InitExchange()
         {
             

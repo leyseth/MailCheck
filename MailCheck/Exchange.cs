@@ -8,10 +8,9 @@ namespace MailCheck
 {
     class Exchange
     {
-        
+        private Boolean mailHit = false;
 
-
-
+        public Boolean MailHit { get { return mailHit; } set { mailHit = value; } }
 
         public void getEmailsAndSave(string uri, string username, string password, List<string> exchangeMailList, string savePath)
         {
@@ -38,7 +37,6 @@ namespace MailCheck
                         {
                             i++;
                             Directory.CreateDirectory(savePath + "\\" + i);
-
                             File.WriteAllText(savePath + "\\" + i + @"\Subject.txt", message.Subject.ToString());
                             File.WriteAllText(savePath + "\\" + i + @"\Body.txt", message.Body.Text.ToString());
 
@@ -71,11 +69,6 @@ namespace MailCheck
                     {
                         Console.WriteLine("This message does not containt a subject");
                     }
-                }
-
-                if (hit)
-                {
-                    Console.WriteLine("\n\n\nBot can be launched");
                 }
             }
 
