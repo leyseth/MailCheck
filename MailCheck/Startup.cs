@@ -24,6 +24,11 @@ namespace MailCheck
         private string exchangeUsername;
         private string exchangePassword;
 
+        private string controlURL;
+        private string apiKey;
+        private int botID;
+        private int machineID;
+
 
         public string DeployDirectory { get { return deployDirectory; } set { deployDirectory = value; } }
         public string EwsUri { get { return ewsUri; } set { ewsUri = value; } }
@@ -34,10 +39,10 @@ namespace MailCheck
         public bool ExchangeEnable { get {return exchangeEnable; } set {exchangeEnable = value; } }
         public bool ExchangeSpecificEmailTrigger { get {return exchangeSpecificEmailTrigger; } set {exchangeSpecificEmailTrigger = value; } }
         public bool ExchangeSaveMail { get { return exchangeSaveMail; } set {exchangeSaveMail = value; } }
-
-
-
-
+        public string ControlURL { get { return controlURL; } set { controlURL = value; } }
+        public string ApiKey { get { return apiKey; } set { apiKey = value; } }
+        public int BotID { get { return botID; } set { botID = value; } }
+        public int MachineID { get { return machineID;  } set { machineID = value; } }
 
 
         public void CheckInitDirect()
@@ -65,6 +70,12 @@ namespace MailCheck
                             ),
                             new XElement("exchangeSaveMail", exchangeSaveMail),
                             new XElement("ExchangeSavePath", exchangeSavePath)
+                        ),
+                        new XElement("AutomationAnywhereAPI",
+                            new XElement("controlURL", controlURL),
+                            new XElement("apiKey", apiKey),
+                            new XElement("botID", botID),
+                            new XElement("machineID", machineID)
                         )
                     )
                 ).Save(deployDirectory + @"\conf.xml");
@@ -99,11 +110,6 @@ namespace MailCheck
             } while (!validChoice);
 
             Console.WriteLine("\n\n\n\n\n\n===============================================\nAll done! Please schedule this application.\n===============================================\n\n");
-        }
-
-        public void InitAaApi()
-        {
-
         }
 
         public void InitExchange()
