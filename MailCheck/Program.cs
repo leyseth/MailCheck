@@ -7,10 +7,8 @@ namespace MailCheck
     {
         static void Main(string[] args)
         {
-            //Init();
-            //Launch();
-            Exchange e = new Exchange();
-            e.moveEmail();
+            Init();
+            Launch();
         }
         static void Init()
         {
