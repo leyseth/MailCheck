@@ -49,8 +49,6 @@ namespace MailCheck
         {
             if (!File.Exists(deployDirectory + @"\conf.xml"))
             {
-                int i = 0;
-                
                 InitCL();
 
                 Directory.CreateDirectory(deployDirectory);

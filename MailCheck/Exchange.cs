@@ -25,16 +25,17 @@ namespace MailCheck
 
             if (exchange != null)
             {
-                FindItemsResults<Item> result = exchange.FindItems(WellKnownFolderName.Inbox, new ItemView(1000));
-                
+                Console.WriteLine("Connected to mailbox\n");
+                FindItemsResults<Item> result = exchange.FindItems(WellKnownFolderName.Inbox, new ItemView(100));
+                Console.WriteLine("Looping through emails");
                 foreach(Item item in result)
                 {
-                   
                     EmailMessage message = EmailMessage.Bind(exchange, item.Id);
                     try
                     {
                         if(exchangeMailList.Contains(message.Sender.Address.ToString()) && message.IsRead == false)
                         {
+                            Console.WriteLine("hit!");
                             i++;
                             Directory.CreateDirectory(savePath + "\\" + i);
                             File.WriteAllText(savePath + "\\" + i + @"\Subject.txt", message.Subject.ToString());
@@ -62,7 +63,7 @@ namespace MailCheck
                                     Console.WriteLine("Item attachment name: " + itemAttachment.Name);
                                 }
                             }
-                            hit = true;
+                            mailHit = true;
                         }  
                     }
                     catch (System.NullReferenceException)
